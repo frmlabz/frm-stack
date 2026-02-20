@@ -18,6 +18,19 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-02-20 — a5ea6da — docs: add harness guide and ralph documentation
+
+- Summary:
+  - Add `docs/harness.md` — agent harness guide covering skills, subagents, hooks, OMNI.md, model routing, and prompting best practices.
+  - Add `docs/ralph.md` — port offset model, Ralph scripts reference, and usage examples.
+- Why:
+  - Provide reference documentation for writing harness components and using the port isolation / Ralph system.
+- LLM Notes:
+  - Key files: `docs/harness.md`, `docs/ralph.md`.
+  - `harness.md` is a generic guide (not project-specific). `ralph.md` has this repo's base port table.
+- Impact:
+  - None.
+
 ### 2026-02-20 — 63af5cd — feat: add Ralph scripts and port infrastructure
 
 - Summary:
