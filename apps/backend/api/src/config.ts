@@ -59,9 +59,7 @@ export const appConfig = apiConfigSchema.parse({
           }
         : undefined,
   },
-  trustedOrigins: process.env.TRUSTED_ORIGINS
-    ? process.env.TRUSTED_ORIGINS.split(",")
-    : [webOrigin, "mobile://"],
+  trustedOrigins: process.env.TRUSTED_ORIGINS ? process.env.TRUSTED_ORIGINS.split(",") : [webOrigin, "mobile://"],
 });
 
 export const isDev = appConfig.env === "dev";
