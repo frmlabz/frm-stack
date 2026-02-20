@@ -18,6 +18,20 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-02-20 — 9440f17 — feat: add worktree port isolation and merge safety
+
+- Summary:
+  - Add `generate_ports()` to worktree setup for automatic per-worktree port generation.
+  - Update cleanup script to require worktree path and refuse to clean main/master.
+  - Add `check-merge-allowed.sh` pre-merge guard and update `wt.toml` hooks.
+  - Update worktree docs to reflect port isolation and new scripts.
+- Why:
+  - Worktrees previously shared ports, preventing simultaneous service execution across branches.
+- LLM Notes:
+  - Key files: `scripts/worktree/setup.sh`, `scripts/worktree/cleanup.sh`, `scripts/worktree/check-merge-allowed.sh`, `.config/wt.toml`, `docs/worktree.md`.
+- Impact:
+  - Minor. Cleanup script now requires a second `<worktree-path>` argument.
+
 ### 2026-01-24 — 03f6b5d — feat: add expo capabilities
 - Summary:
   - Add Expo capabilities and a grouped `expo` capability set to the default OmniDev profile.

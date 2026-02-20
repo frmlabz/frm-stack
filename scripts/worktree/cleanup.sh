@@ -2,11 +2,10 @@
 # Worktree cleanup script
 # Called by Worktrunk's pre-remove hook
 # Cleans up Docker resources and generated files in the worktree
+#
+# Usage: cleanup.sh <branch-name> <worktree-path>
 
 set -euo pipefail
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Colors for output
 RED='\033[0;31m'
@@ -22,10 +21,30 @@ log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 # Get branch name from argument or current git branch
 BRANCH="${1:-$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '')}"
+# Get worktree path from argument (required to avoid cleaning wrong worktree!)
+WORKTREE_PATH="${2:-}"
 
 if [ -z "$BRANCH" ]; then
     log_error "Could not determine branch name"
-    log_error "Usage: cleanup.sh <branch-name>"
+    log_error "Usage: cleanup.sh <branch-name> <worktree-path>"
+    exit 1
+fi
+
+if [ -z "$WORKTREE_PATH" ]; then
+    log_error "Worktree path is required to prevent cleaning wrong worktree"
+    log_error "Usage: cleanup.sh <branch-name> <worktree-path>"
+    exit 1
+fi
+
+# Use the provided worktree path, NOT script location
+REPO_ROOT="$(cd "$WORKTREE_PATH" 2>/dev/null && pwd)" || {
+    log_error "Worktree path does not exist: $WORKTREE_PATH"
+    exit 1
+}
+
+# Safety: never clean up main worktree
+if [[ "$REPO_ROOT" == */main ]] || [[ "$BRANCH" == "main" ]] || [[ "$BRANCH" == "master" ]]; then
+    log_error "Refusing to clean main/master worktree via pre-remove hook"
     exit 1
 fi
 

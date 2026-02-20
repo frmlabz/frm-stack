@@ -5,8 +5,7 @@ This repository uses [Worktrunk](https://worktrunk.dev/) to manage git worktrees
 - Working copy of the code
 - Installed dependencies
 - Environment configuration (`.env` files copied from main worktree)
-
-> **Note**: All worktrees share the same ports. Only run one worktree's services at a time, or manually configure different ports if needed.
+- Port assignments (`.env.ports` generated per worktree)
 
 ## Prerequisites
 
@@ -77,8 +76,9 @@ wt switch -c feature/my-feature
 
 # The post-create hook automatically:
 # 1. Copies gitignored files (.env, node_modules/, caches) from main worktree
-# 2. Sets up devbox/direnv if present
-# 3. Runs pnpm install
+# 2. Generates .env.ports with unique port offsets for this worktree
+# 3. Sets up devbox/direnv if present
+# 4. Runs pnpm install
 ```
 
 ### Working with Worktrees
@@ -121,6 +121,14 @@ All gitignored files are copied except `.git`. The script:
 2. Uses `rsync` for fast bulk copying
 3. Handles missing source files gracefully (e.g., if some cached files were deleted)
 
+### Automatic Port Generation
+
+Each worktree gets its own `.env.ports` file with unique port offsets derived from the branch name. This allows running multiple worktrees' services simultaneously without port conflicts.
+
+The port offset is computed as: `hash(branch_name) % 1000 + 27 + PROJECT_OFFSET`. The main worktree uses the base ports (offset 0 + PROJECT_OFFSET).
+
+See [ralph.md](ralph.md) for the full port offset model and base port table.
+
 ### Environment Change Detection
 
 When merging a branch, Worktrunk checks if any `.env.example` (or similar template) files were modified. If changes are detected, you'll see a warning:
@@ -142,6 +150,8 @@ When removing a worktree (`wt remove` or `wt merge`), the cleanup script:
 1. Stops Docker containers and removes volumes (`docker compose down -v`)
 2. Removes generated `.env` files
 
+The cleanup script requires the worktree path as an argument and refuses to clean the main/master worktree as a safety guard.
+
 ## Configuration
 
 ### Project Config (`.config/wt.toml`)
@@ -154,9 +164,10 @@ setup = "bash scripts/worktree/setup.sh '{{ branch }}' '{{ primary_worktree_path
 direnv = "cd {{ worktree_path }} && direnv allow || true"
 
 [pre-remove]
-cleanup = "bash scripts/worktree/cleanup.sh '{{ branch }}'"
+cleanup = "bash scripts/worktree/cleanup.sh '{{ branch }}' '{{ worktree_path }}'"
 
 [pre-merge]
+merge-allowed = "bash scripts/worktree/check-merge-allowed.sh"
 typecheck = "pnpm typecheck"
 lint = "pnpm lint:check"
 format = "pnpm format:check"
@@ -165,7 +176,7 @@ env-check = "bash scripts/worktree/check-env-changes.sh"
 
 The hooks run sequentially in the order defined:
 
-1. **setup**: Copies gitignored files from the primary worktree using rsync, then runs `pnpm install`
+1. **setup**: Copies gitignored files from the primary worktree using rsync, generates `.env.ports`, then runs `pnpm install`
 2. **direnv**: Allows direnv in the new worktree directory
 
 ## Commands Reference
@@ -192,14 +203,14 @@ just setup  # Full setup with DB migrations and seed
 pnpm dev
 
 # 3. Work on your feature...
-# Make changes, test at http://localhost:5173 (or your configured port)
+# Each worktree has its own ports, so you can run multiple worktrees simultaneously
 
 # 4. When done, merge to main
 wt merge
 # This will:
 # - Squash your commits
 # - Rebase onto main
-# - Run pre-merge hooks (typecheck, lint, env-check)
+# - Run pre-merge hooks (merge-allowed, typecheck, lint, env-check)
 # - Warn if .env.example files changed
 # - Fast-forward merge
 # - Stop Docker and remove volumes
@@ -213,13 +224,16 @@ wt merge --no-remove
 
 ### Port Conflicts
 
-Since all worktrees use the same ports, you can only run one worktree's services at a time. If you get port conflicts:
+Each worktree automatically gets unique ports via `.env.ports`. If you still get port conflicts:
 
 ```bash
-# Stop services in all worktrees
-docker compose down
+# Check your worktree's assigned ports
+cat .env.ports
 
-# Or check what's using a port
+# Regenerate ports for the current branch
+./scripts/generate-ports.sh --name "$(git branch --show-current)"
+
+# Check what's using a port
 ss -tuln | grep <port>
 lsof -i :<port>
 ```
@@ -281,17 +295,27 @@ The worktree workflow is powered by bash scripts in `scripts/worktree/`:
 - **When**: Runs automatically via `post-create` hook when creating a new worktree
 - **What it does**:
   1. Copies all gitignored files from the primary worktree (node_modules, .env files, caches, etc.)
-  2. Runs `pnpm install --frozen-lockfile`
-  3. Prints a helpful summary with quick start commands
+  2. Generates `.env.ports` with unique port offsets for the branch
+  3. Runs `pnpm install --frozen-lockfile`
+  4. Prints a helpful summary with quick start commands
 - **Location**: `scripts/worktree/setup.sh`
 
 ### `cleanup.sh`
 
 - **When**: Runs automatically via `pre-remove` hook before deleting a worktree
 - **What it does**:
-  1. Stops Docker containers and removes volumes
-  2. Removes generated `.env` files
+  1. Validates the worktree path argument (refuses to clean main/master)
+  2. Stops Docker containers and removes volumes
+  3. Removes generated `.env` files
 - **Location**: `scripts/worktree/cleanup.sh`
+
+### `check-merge-allowed.sh`
+
+- **When**: Runs automatically via `pre-merge` hook before merging
+- **What it does**:
+  1. Checks if the current branch is main/master
+  2. Blocks the merge if so (nothing to merge into from main)
+- **Location**: `scripts/worktree/check-merge-allowed.sh`
 
 ### `check-env-changes.sh`
 
@@ -319,11 +343,12 @@ The worktree workflow is powered by bash scripts in `scripts/worktree/`:
 Using Worktrunk with this repository provides:
 
 1. **Parallel Development**: Work on multiple features simultaneously without context switching
-2. **Fast Setup**: Rsync copies reduce cold start time from minutes to seconds
-3. **Clean Separation**: Each worktree has isolated dependencies, Docker volumes, and env files
-4. **Safety**: Pre-merge hooks catch type/lint errors before merging
-5. **Awareness**: Automatic warnings when environment templates change
-6. **Simplified Cleanup**: One command removes both the worktree and all generated files
+2. **Port Isolation**: Each worktree gets unique ports, so multiple worktrees can run services simultaneously
+3. **Fast Setup**: Rsync copies reduce cold start time from minutes to seconds
+4. **Clean Separation**: Each worktree has isolated dependencies, Docker volumes, and env files
+5. **Safety**: Pre-merge hooks catch type/lint errors and block merges from main
+6. **Awareness**: Automatic warnings when environment templates change
+7. **Simplified Cleanup**: One command removes both the worktree and all generated files
 
 ## Alternative: Bare Repository Workflow
 

@@ -21,13 +21,14 @@ direnv = "cd {{ worktree_path }} && direnv allow || true"
 # Pre-Remove Hook
 # Cleanup generated files in the worktree
 [pre-remove]
-cleanup = "bash scripts/worktree/cleanup.sh '{{ branch }}'"
+cleanup = "bash scripts/worktree/cleanup.sh '{{ branch }}' '{{ worktree_path }}'"
 # Clean up devbox/direnv files before deleting worktree
 # devbox = "rm -f {{ worktree_path }}/.envrc {{ worktree_path }}/devbox.json {{ worktree_path }}/devbox.lock 2>/dev/null || true"
 
 # Pre-Merge Hook
 # Run validation before merging
 [pre-merge]
+merge-allowed = "bash scripts/worktree/check-merge-allowed.sh"
 typecheck = "pnpm typecheck"
 lint = "pnpm lint:check"
 format = "pnpm format:check"
