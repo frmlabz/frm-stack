@@ -18,6 +18,19 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-02-20 — 4860c1f — fix: changelog pre-push hook failing with multiple commits
+
+- Summary:
+  - Fix `scripts/check-changelog.sh` — `git diff-tree` with multiple SHAs treated extras as path filters, producing empty output.
+  - Replace single-pipeline `xargs` approach with a per-commit for-loop.
+- Why:
+  - The hook silently passed pushes without changelog entries, defeating its purpose.
+- LLM Notes:
+  - Key files: `scripts/check-changelog.sh`.
+  - `git diff-tree -r sha1 sha2 sha3` interprets `sha2 sha3` as path filters, not additional commits.
+- Impact:
+  - None.
+
 ### 2026-02-20 — fca0cf6 — fix: derive ports and URLs from .env.ports instead of hardcoding
 
 - Summary:
