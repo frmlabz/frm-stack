@@ -18,6 +18,22 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-02-20 — 63af5cd — feat: add Ralph scripts and port infrastructure
+
+- Summary:
+  - Add `generate-ports.sh`, `with-ports.sh`, and `teardown.sh` for port offset management.
+  - Add Ralph orchestration scripts (`setup.sh`, `start.sh`, `health-check.sh`, `teardown.sh`).
+  - Update `compose.yml` to use `$PG_PORT` and `justfile` to use `$PG_PORT` in all Atlas/psql commands.
+  - Add `.env.ports` to `.gitignore`.
+- Why:
+  - Enable running multiple copies of the stack in parallel via port offsets, and provide Ralph scripts for automated environment lifecycle.
+- LLM Notes:
+  - Key files: `scripts/generate-ports.sh`, `scripts/with-ports.sh`, `scripts/ralph/*`, `compose.yml`, `justfile`.
+  - Base ports: PG=5432, API=8080, WEB=4000, LANDING=4321. Offsets computed from branch name hash.
+  - `.env` provides default `PG_PORT=5432` for direct `just` usage; `with-ports.sh` overrides from `.env.ports`.
+- Impact:
+  - Minor. `compose.yml` and `justfile` now require `PG_PORT` env var (provided by `.env` default).
+
 ### 2026-02-20 — 9440f17 — feat: add worktree port isolation and merge safety
 
 - Summary:

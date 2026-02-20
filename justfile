@@ -17,7 +17,7 @@ d +COMMANDS:
 	@{{dc}} {{COMMANDS}}
 
 db-migrate:
-	@atlas schema apply --url "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable" --to "file://db/schema.sql" --dev-url "docker://postgres/17" --auto-approve
+	@atlas schema apply --url "postgres://postgres:postgres@localhost:$PG_PORT/postgres?sslmode=disable" --to "file://db/schema.sql" --dev-url "docker://postgres/17" --auto-approve
 
 # Versioned migrations (Atlas)
 #
@@ -30,24 +30,24 @@ db-migration-new NAME:
 	@atlas migrate diff {{NAME}} --to "file://db/schema.sql" --dev-url "docker://postgres/17" --dir "file://db/migrations"
 
 db-migration-apply:
-	@atlas migrate apply --url "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable" --dir "file://db/migrations"
+	@atlas migrate apply --url "postgres://postgres:postgres@localhost:$PG_PORT/postgres?sslmode=disable" --dir "file://db/migrations"
 
 db-migration-status:
-	@atlas migrate status --url "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable" --dir "file://db/migrations"
+	@atlas migrate status --url "postgres://postgres:postgres@localhost:$PG_PORT/postgres?sslmode=disable" --dir "file://db/migrations"
 
 db-migration-hash:
 	@atlas migrate hash --dir "file://db/migrations"
 
 db-psql:
 	@echo "EXPERIMENT: Testing pgcli (Postgres CLI with autocompletion and syntax highlighting). Fallback to psql available if needed."
-	@pgcli postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
+	@pgcli postgres://postgres:postgres@localhost:$PG_PORT/postgres?sslmode=disable
 	# @{{dc}} exec -it postgres psql -U postgres -h localhost -d postgres
 
 # Generate TypeScript types from deployed database schema
 # Connects to PostgreSQL, introspects current schema, converts to TypeScript
 # Run after any schema changes.
 db-schema:
-	@pnpm kysely-codegen --camel-case --out-file ./packages/backend/core/src/schema.ts --url postgres://postgres:postgres@localhost:5432?sslmode=disable
+	@pnpm kysely-codegen --camel-case --out-file ./packages/backend/core/src/schema.ts --url postgres://postgres:postgres@localhost:$PG_PORT?sslmode=disable
 	@pnpm biome format --fix packages/backend/core/src/schema.ts
 
 setup: dev-clean

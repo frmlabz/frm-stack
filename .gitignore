@@ -12,6 +12,7 @@ storybook-static
 .astro
 .vscode
 .env.*
+.env.ports
 !.env.example
 !.env.*.example
 # OmniDev
