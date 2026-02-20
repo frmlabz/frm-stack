@@ -6,6 +6,12 @@ export COMPOSE_DOCKER_CLI_BUILD := "1"
 export UID := `id -u`
 export GID := `id -g`
 
+# Load ports from .env.ports (auto-generated if missing)
+export PG_PORT := env("PG_PORT", `test -f .env.ports || ./scripts/generate-ports.sh >/dev/null; grep '^PG_PORT=' .env.ports | cut -d= -f2`)
+export API_PORT := env("API_PORT", `test -f .env.ports || ./scripts/generate-ports.sh >/dev/null; grep '^API_PORT=' .env.ports | cut -d= -f2`)
+export WEB_PORT := env("WEB_PORT", `test -f .env.ports || ./scripts/generate-ports.sh >/dev/null; grep '^WEB_PORT=' .env.ports | cut -d= -f2`)
+export LANDING_PORT := env("LANDING_PORT", `test -f .env.ports || ./scripts/generate-ports.sh >/dev/null; grep '^LANDING_PORT=' .env.ports | cut -d= -f2`)
+
 dc := "docker compose"
 
 # Display help information
@@ -54,7 +60,7 @@ setup: dev-clean
 	@pnpm install
 	@./scripts/dev_check.sh
 	@{{dc}} up -d
-	@POSTGRES_CONTAINER_NAME=$(docker inspect -f '{{{{.Name}}' $(docker-compose ps -q postgres) | cut -c2-) ./scripts/db_isready.sh
+	@./scripts/db_isready.sh
 	@just db-migrate
 
 start:

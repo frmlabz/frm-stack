@@ -26,8 +26,15 @@ const apiConfigSchema = z.object({
 export type ApiConfig = z.infer<typeof apiConfigSchema>;
 export { apiConfigSchema };
 
+// Port resolution: API_PORT (from .env.ports) > PORT (from .env) > 8080
+const apiPort = Number(process.env.API_PORT || process.env.PORT || 8080);
+const pgPort = Number(process.env.PG_PORT || 5432);
+const webPort = process.env.WEB_PORT || "4000";
+const baseServiceUrl = process.env.BASE_SERVICE_URL || `http://localhost:${apiPort}`;
+const webOrigin = `http://localhost:${webPort}`;
+
 export const appConfig = apiConfigSchema.parse({
-  port: process.env.PORT ? parseInt(process.env.PORT, 10) : undefined,
+  port: apiPort,
   version: process.env.VERSION,
   env: process.env.ENVIRONMENT,
   requestLogging: process.env.REQUEST_LOGGING === "true",
@@ -36,14 +43,14 @@ export const appConfig = apiConfigSchema.parse({
     user: process.env.PG_USER,
     password: process.env.PG_PASS,
     name: process.env.PG_DB,
-    port: process.env.PG_PORT ? Number(process.env.PG_PORT) : undefined,
+    port: pgPort,
   },
-  baseServiceUrl: process.env.BASE_SERVICE_URL,
+  baseServiceUrl,
   cors: {
-    origins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(",") : [],
+    origins: process.env.CORS_ORIGINS ? process.env.CORS_ORIGINS.split(",") : [webOrigin],
   },
   auth: {
-    baseUrl: process.env.BASE_SERVICE_URL,
+    baseUrl: baseServiceUrl,
     google:
       process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
         ? {
@@ -52,7 +59,9 @@ export const appConfig = apiConfigSchema.parse({
           }
         : undefined,
   },
-  trustedOrigins: process.env.TRUSTED_ORIGINS ? process.env.TRUSTED_ORIGINS.split(",") : [],
+  trustedOrigins: process.env.TRUSTED_ORIGINS
+    ? process.env.TRUSTED_ORIGINS.split(",")
+    : [webOrigin, "mobile://"],
 });
 
 export const isDev = appConfig.env === "dev";

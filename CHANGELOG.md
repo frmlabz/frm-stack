@@ -18,6 +18,28 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-02-20 — fca0cf6 — fix: derive ports and URLs from .env.ports instead of hardcoding
+
+- Summary:
+  - Remove hardcoded ports and URLs from all `.env.example` files — apps now compute them from port env vars at startup.
+  - Update `config.ts` (API), `vite.config.ts` (Web), and `astro.config.mjs` (Landing) to resolve ports from `API_PORT`, `WEB_PORT`, `LANDING_PORT` env vars with sensible defaults.
+  - Add `globalPassThroughEnv` to `turbo.json` so port vars reach child processes.
+  - Update `justfile` to auto-generate `.env.ports` and export port vars via backtick expressions.
+  - Wrap `pnpm dev` with `with-ports.sh` so ports propagate through turbo to all apps.
+  - Add `strictPort: true` to Vite and Astro configs — prevents silent port bumping that breaks CORS.
+  - Fix `with-ports.sh` to auto-generate `.env.ports` if missing.
+  - Fix `db_isready.sh` to use `docker compose exec` instead of fragile container name lookup.
+- Why:
+  - Previous commit added port infrastructure but apps still had hardcoded ports in `.env` files, defeating port isolation. Now `.env.ports` is the single source of truth.
+- LLM Notes:
+  - Key files: `apps/backend/api/src/config.ts`, `apps/frontend/web/vite.config.ts`, `apps/frontend/landing/astro.config.mjs`, `turbo.json`, `justfile`, `package.json`, `scripts/with-ports.sh`, `scripts/db_isready.sh`.
+  - Port resolution order: env var (from `.env.ports` via `with-ports.sh` or justfile) > `.env` file > built-in default.
+  - Expo mobile is an exception: `EXPO_PUBLIC_API_URL` is baked at build time and must stay in `.env`.
+  - `turbo.json` `globalPassThroughEnv` is critical — without it, turbo strips env vars from child processes.
+  - `strictPort: true` is critical — without it, Vite/Astro silently pick another port, causing CORS mismatches with the API.
+- Impact:
+  - Minor. `.env.example` files changed; downstream projects should regenerate `.env` from examples and run `scripts/generate-ports.sh`.
+
 ### 2026-02-20 — a5ea6da — docs: add harness guide and ralph documentation
 
 - Summary:

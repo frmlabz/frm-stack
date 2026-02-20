@@ -27,7 +27,7 @@ do
     continue
   fi
 
-  if ! git diff-tree --no-commit-id --name-only -r $commits | grep -qx "$CHANGELOG_FILE"; then
+  if ! echo "$commits" | xargs -I{} git diff-tree --no-commit-id --name-only -r {} | grep -qx "$CHANGELOG_FILE"; then
     echo "ERROR: No $CHANGELOG_FILE update found in commits being pushed for $local_ref."
     missing=1
   fi

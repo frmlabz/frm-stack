@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 #
-# Usage @POSTGRES_CONTAINER_NAME=$(docker inspect -f '{{{{.Name}}' $(docker-compose ps -q postgres) | cut -c2-) ./scripts/db_isready.sh
-# https://stackoverflow.com/a/55990412/13440079
-# Or just give the container a name
+# Wait for Postgres inside the docker compose service to be ready.
+# Uses `docker compose exec` so no container name is needed.
 
 RETRIES=5
 
 until
-	docker exec $POSTGRES_CONTAINER_NAME pg_isready -t 5 -h localhost -p $PG_PORT -U $PG_USER -d $PG_DB >/dev/null 2>&1
+	docker compose exec -T postgres pg_isready -h localhost -U "${PG_USER:-postgres}" -d "${PG_DB:-postgres}" >/dev/null 2>&1
 do
 	if [ $RETRIES -le 0 ]; then
 		echo "Postgres is not up - exiting"
