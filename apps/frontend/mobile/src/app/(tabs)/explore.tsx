@@ -1,7 +1,7 @@
-import { StyleSheet, View, Text, TouchableOpacity, Alert, ScrollView } from "react-native";
-import { useSession } from "#providers/session-provider";
-import { signOut } from "#lib/auth";
 import { useRouter } from "expo-router";
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { signOut } from "#lib/auth";
+import { useSession } from "#providers/session-provider";
 
 export default function ProfileScreen() {
   const { data: session } = useSession();

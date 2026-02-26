@@ -1,10 +1,9 @@
-import { describe, it, expect, beforeEach, vi, beforeAll } from "vitest";
-import { UserNotAuthorizedError, UserService } from "#services/user";
+import { randomUUID } from "node:crypto";
 import type { DB } from "@yourcompany/backend-core/db";
 import type { Logger } from "@yourcompany/backend-core/log";
-import { createTestUser } from "@yourcompany/backend-core/test-helpers";
-import { getSharedDatabaseHelper, resetSharedDatabase } from "@yourcompany/backend-core/test-helpers";
-import { randomUUID } from "node:crypto";
+import { createTestUser, getSharedDatabaseHelper, resetSharedDatabase } from "@yourcompany/backend-core/test-helpers";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { UserNotAuthorizedError, UserService } from "#services/user";
 
 describe("UserService", () => {
   let db: DB;

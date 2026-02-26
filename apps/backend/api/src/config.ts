@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { dbConfigSchema } from "@yourcompany/backend-core/config";
+import { z } from "zod";
 
 const apiConfigSchema = z.object({
   env: z.enum(["dev", "production", "test", "staging"]),

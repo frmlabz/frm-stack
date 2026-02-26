@@ -1,13 +1,13 @@
+import { useRouter } from "expo-router";
 import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SignIn } from "#components/auth/signin";
-import { useRouter } from "expo-router";
 
 export default function SignInScreen() {
   const router = useRouter();

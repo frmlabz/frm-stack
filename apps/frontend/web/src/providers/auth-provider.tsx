@@ -1,6 +1,6 @@
-import { createContext, useContext, type ReactNode } from "react";
-import { useSession } from "#providers/session-provider.tsx";
+import { createContext, type ReactNode, useContext } from "react";
 import type { AuthSession } from "#lib/auth.ts";
+import { useSession } from "#providers/session-provider.tsx";
 
 interface AuthContextType {
   session: AuthSession | null;

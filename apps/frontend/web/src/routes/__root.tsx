@@ -1,11 +1,11 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { SessionProvider } from "#providers/session-provider";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { ThemeProvider } from "next-themes";
+import { AuthGuard } from "#components/auth/auth-guard";
+import { getConfig } from "#lib/config";
 import { AuthProvider } from "#providers/auth-provider";
 import { ORPCProvider } from "#providers/orpc-provider";
-import { ThemeProvider } from "next-themes";
-import { getConfig } from "#lib/config";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { AuthGuard } from "#components/auth/auth-guard";
+import { SessionProvider } from "#providers/session-provider";
 
 const config = getConfig();
 

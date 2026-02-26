@@ -1,6 +1,6 @@
-import { Stack, Redirect } from "expo-router";
+import { Redirect, Stack } from "expo-router";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useSession } from "#providers/session-provider";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
 
 export default function AuthLayout() {
   const { data: session, isPending } = useSession();

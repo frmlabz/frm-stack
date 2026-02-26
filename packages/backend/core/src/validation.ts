@@ -1,4 +1,4 @@
-import { ok, err } from "neverthrow";
+import { err, ok } from "neverthrow";
 import type { z } from "zod";
 
 export const validateInput = <T extends z.ZodSchema>(schema: T, input: z.infer<T>) => {

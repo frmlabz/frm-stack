@@ -6,4 +6,3 @@
   },
   "include": ["storybook/**/*.ts", "storybook/**/*.d.ts"]
 }
-

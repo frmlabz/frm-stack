@@ -1,9 +1,9 @@
-import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig, loadEnv } from "vite";
 import topLevelAwait from "vite-plugin-top-level-await";
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -18,10 +18,16 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "dist",
     },
-    plugins: [tanstackRouter({
-      target: 'react',
-      autoCodeSplitting: true,
-    }), react(), tailwindcss(), tsconfigPaths(), topLevelAwait()],
+    plugins: [
+      tanstackRouter({
+        target: "react",
+        autoCodeSplitting: true,
+      }),
+      react(),
+      tailwindcss(),
+      tsconfigPaths(),
+      topLevelAwait(),
+    ],
     server: {
       port,
       strictPort: true,

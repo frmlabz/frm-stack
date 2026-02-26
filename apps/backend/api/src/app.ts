@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import type { Auth } from "#auth";
-import { logger } from "#log";
-import { appConfig } from "#config";
 import { HTTPException } from "hono/http-exception";
+import type { Auth } from "#auth";
+import { appConfig } from "#config";
+import { logger } from "#log";
 
 export interface Variables {
   user: Auth["$Infer"]["Session"]["user"] | null;

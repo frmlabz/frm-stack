@@ -1,7 +1,7 @@
-import { defineConfig, mergeConfig, type Plugin } from "vitest/config";
-import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createSharedTestConfig } from "@yourcompany/backend-core/vitest.config.shared";
+import { defineConfig, mergeConfig, type Plugin } from "vitest/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

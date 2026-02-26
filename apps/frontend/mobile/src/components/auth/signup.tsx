@@ -1,12 +1,12 @@
 import { useState } from "react";
 import {
-  View,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
+  View,
 } from "react-native";
 import { signUp } from "#lib/auth";
 import { useSession } from "#providers/session-provider";

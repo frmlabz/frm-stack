@@ -1,5 +1,5 @@
-import { Tabs, Redirect } from "expo-router";
-import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { Redirect, Tabs } from "expo-router";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 import { HapticTab } from "#components/haptic-tab";
 import { IconSymbol } from "#components/ui/icon-symbol";

@@ -1,7 +1,7 @@
+import { useIsMounted } from "@yourcompany/web/hooks/is-mounted";
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import type { AuthSession } from "#lib/auth.ts";
 import { useBetterAuthSession } from "#lib/auth.ts";
-import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
-import { useIsMounted } from "@yourcompany/web/hooks/is-mounted";
 
 type SessionContextType = {
   isPending: boolean;
