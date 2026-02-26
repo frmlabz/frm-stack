@@ -1,0 +1,64 @@
+{
+  "name": "@yourcompany/web",
+  "version": "0.0.0",
+  "type": "module",
+  "imports": {
+    "#*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*.tsx"
+    ]
+  },
+  "exports": {
+    "./components/*": "./src/components/*.tsx",
+    "./lib/*": "./src/lib/*.ts",
+    "./styles": "./src/index.css",
+    "./hooks/*": "./src/hooks/*.ts"
+  },
+  "sideEffects": false,
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "typecheck": "tsc -b --noEmit",
+    "lint": "biome lint --fix ./src",
+    "lint:check": "biome lint ./src",
+    "format": "biome format --write ./src",
+    "format:check": "biome format ./src",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.0.0",
+    "@orpc/client": "catalog:",
+    "@orpc/react-query": "catalog:",
+    "@orpc/server": "catalog:",
+    "better-auth": "catalog:",
+    "class-variance-authority": "catalog:",
+    "lucide-react": "catalog:",
+    "next-themes": "catalog:",
+    "react": "catalog:",
+    "clsx": "catalog:",
+    "react-day-picker": "^9.11.1",
+    "react-dom": "catalog:",
+    "sonner": "catalog:",
+    "tailwind-merge": "catalog:",
+    "tailwindcss": "catalog:",
+    "tw-animate-css": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "catalog:",
+    "@storybook/addon-docs": "catalog:",
+    "@storybook/addon-links": "catalog:",
+    "@storybook/addon-themes": "catalog:",
+    "@storybook/react": "catalog:",
+    "@storybook/react-vite": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@yourcompany/configs": "workspace:*",
+    "@yourcompany/testing": "workspace:*",
+    "storybook": "catalog:"
+  }
+}

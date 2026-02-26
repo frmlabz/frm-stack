@@ -1,0 +1,34 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "PG_PORT",
+    "PG_HOST",
+    "PG_USER",
+    "PG_PASS",
+    "PG_DB",
+    "API_PORT",
+    "WEB_PORT",
+    "LANDING_PORT",
+    "API_URL",
+    "WEB_URL",
+    "LANDING_URL"
+  ],
+  "tasks": {
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false
+    },
+    "lint": {},
+    "lint:check": {},
+    "format": {},
+    "format:check": {},
+    "test": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

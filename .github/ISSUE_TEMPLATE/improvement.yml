@@ -1,0 +1,19 @@
+name: Improvement
+description: Suggest an improvement to the template
+labels: ["improvement"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What would you like to improve and why?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What would you change? Alternatives welcome.
+    validations:
+      required: true
+

@@ -1,0 +1,14 @@
+# Exclude unnecessary directories
+deployment
+docs
+scripts
+
+# Exclude development files
+.git
+*.md
+README.md
+
+# Exclude build artifacts
+**/dist/
+**/node_modules/
+*.log

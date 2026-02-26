@@ -1,0 +1,15 @@
+# type(scope): subject
+#
+# Types: fix (bug), improv (improvement), docs, refactor, test, chore
+#
+# Examples:
+# fix(api): handle missing session
+# improv(db): speed up schema generation
+# docs: clarify testcontainers setup
+#
+# Why:
+#
+# What:
+#
+# How tested:
+#

@@ -1,0 +1,15 @@
+name: Docs
+description: Docs issue or suggestion
+labels: ["docs"]
+body:
+  - type: textarea
+    id: gap
+    attributes:
+      label: What’s missing or unclear?
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested wording / structure (optional)
+

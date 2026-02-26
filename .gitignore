@@ -1,0 +1,24 @@
+.direnv
+.env
+.turbo
+node_modules
+*.DS_Store
+.pnpm-store
+.DS_Store
+dist/
+.data
+tsconfig.tsbuildinfo
+storybook-static
+.astro
+.vscode
+.env.*
+.env.ports
+!.env.example
+!.env.*.example
+# OmniDev
+.omni/
+omni.local.toml
+# OmniDev Provider Files
+CLAUDE.md
+.claude/
+.mcp.json

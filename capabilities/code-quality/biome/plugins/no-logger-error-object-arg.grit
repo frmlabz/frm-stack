@@ -1,0 +1,18 @@
+or {
+  `$obj.$method($msg, $second)` where {
+    $method <: or {
+      `error`,
+      `fatal`
+    },
+    $second <: JsObjectExpression(),
+    register_diagnostic(span=$second, severity="error", message="logger.error/fatal 2nd arg must be an Error, not an object literal. Use: logger.error(msg, err) or logger.error(msg, err, { props })")
+  },
+  `$obj.$method($msg, $second, $third)` where {
+    $method <: or {
+      `error`,
+      `fatal`
+    },
+    $second <: JsObjectExpression(),
+    register_diagnostic(span=$second, severity="error", message="logger.error/fatal 2nd arg must be an Error, not an object literal. Use: logger.error(msg, err, { props })")
+  }
+}
