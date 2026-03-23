@@ -18,7 +18,7 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
-### 2026-03-23 — HEAD — fix: add COMPOSE_PROJECT_NAME to prevent Docker network collisions
+### 2026-03-23 — ed517ad — fix: add COMPOSE_PROJECT_NAME to prevent Docker network collisions
 
 - Summary:
   - Emit `COMPOSE_PROJECT_NAME=template_<branch>` in `generate-ports.sh` so each worktree/branch gets a unique Docker Compose project name and network (`template_<branch>_default`).
