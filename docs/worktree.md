@@ -5,7 +5,7 @@ This repository uses [Worktrunk](https://worktrunk.dev/) to manage git worktrees
 - Working copy of the code
 - Installed dependencies
 - Environment configuration (`.env` files copied from main worktree)
-- Port assignments (`.env.ports` generated per worktree)
+- Port assignments (`.env.worktree` generated per worktree)
 
 ## Prerequisites
 
@@ -76,7 +76,7 @@ wt switch -c feature/my-feature
 
 # The post-create hook automatically:
 # 1. Copies gitignored files (.env, node_modules/, caches) from main worktree
-# 2. Generates .env.ports with unique port offsets for this worktree
+# 2. Generates .env.worktree with unique port offsets for this worktree
 # 3. Sets up devbox/direnv if present
 # 4. Runs pnpm install
 ```
@@ -123,7 +123,7 @@ All gitignored files are copied except `.git`. The script:
 
 ### Automatic Port Generation
 
-Each worktree gets its own `.env.ports` file with unique port offsets derived from the branch name. This allows running multiple worktrees' services simultaneously without port conflicts.
+Each worktree gets its own `.env.worktree` file with unique port offsets derived from the branch name. This allows running multiple worktrees' services simultaneously without port conflicts.
 
 The port offset is computed as: `hash(branch_name) % 1000 + 27 + PROJECT_OFFSET`. The main worktree uses the base ports (offset 0 + PROJECT_OFFSET).
 
@@ -176,7 +176,7 @@ env-check = "bash scripts/worktree/check-env-changes.sh"
 
 The hooks run sequentially in the order defined:
 
-1. **setup**: Copies gitignored files from the primary worktree using rsync, generates `.env.ports`, then runs `pnpm install`
+1. **setup**: Copies gitignored files from the primary worktree using rsync, generates `.env.worktree`, then runs `pnpm install`
 2. **direnv**: Allows direnv in the new worktree directory
 
 ## Commands Reference
@@ -224,14 +224,14 @@ wt merge --no-remove
 
 ### Port Conflicts
 
-Each worktree automatically gets unique ports via `.env.ports`. If you still get port conflicts:
+Each worktree automatically gets unique ports via `.env.worktree`. If you still get port conflicts:
 
 ```bash
 # Check your worktree's assigned ports
-cat .env.ports
+cat .env.worktree
 
 # Regenerate ports for the current branch
-./scripts/generate-ports.sh --name "$(git branch --show-current)"
+./scripts/generate-worktree-env.sh --name "$(git branch --show-current)"
 
 # Check what's using a port
 ss -tuln | grep <port>
@@ -295,7 +295,7 @@ The worktree workflow is powered by bash scripts in `scripts/worktree/`:
 - **When**: Runs automatically via `post-create` hook when creating a new worktree
 - **What it does**:
   1. Copies all gitignored files from the primary worktree (node_modules, .env files, caches, etc.)
-  2. Generates `.env.ports` with unique port offsets for the branch
+  2. Generates `.env.worktree` with unique port offsets for the branch
   3. Runs `pnpm install --frozen-lockfile`
   4. Prints a helpful summary with quick start commands
 - **Location**: `scripts/worktree/setup.sh`

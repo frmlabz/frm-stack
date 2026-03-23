@@ -125,17 +125,17 @@ print_summary() {
     echo ""
 }
 
-# Generate .env.ports for this worktree
-generate_ports() {
-    log_info "Generating .env.ports for branch: $BRANCH"
-    "$SCRIPT_DIR/../generate-ports.sh" --name "$BRANCH"
-    log_success "Generated .env.ports"
+# Generate .env.worktree for this worktree
+generate_worktree_env() {
+    log_info "Generating .env.worktree for branch: $BRANCH"
+    "$SCRIPT_DIR/../generate-worktree-env.sh" --name "$BRANCH"
+    log_success "Generated .env.worktree"
 }
 
 # Main execution
 main() {
     copy_gitignored_files
-    generate_ports
+    generate_worktree_env
     install_dependencies
     print_summary
 }

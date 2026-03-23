@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "./scripts/with-ports.sh turbo run --ui tui --concurrency=15 dev",
+    "dev": "./scripts/with-worktree-env.sh turbo run --ui tui --concurrency=15 dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "format": "turbo run format",

@@ -18,17 +18,19 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
-### 2026-03-23 — ed517ad — fix: add COMPOSE_PROJECT_NAME to prevent Docker network collisions
+### 2026-03-23 — c20649c — refactor: rename env.ports to env.worktree and add COMPOSE_PROJECT_NAME
 
 - Summary:
-  - Emit `COMPOSE_PROJECT_NAME=template_<branch>` in `generate-ports.sh` so each worktree/branch gets a unique Docker Compose project name and network (`template_<branch>_default`).
+  - Emit `COMPOSE_PROJECT_NAME=template_<branch>` in `generate-worktree-env.sh` so each worktree/branch gets a unique Docker Compose project name and network (`template_<branch>_default`).
+  - Rename `.env.ports` → `.env.worktree`, `generate-ports.sh` → `generate-worktree-env.sh`, `with-ports.sh` → `with-worktree-env.sh` to reflect broader purpose.
 - Why:
   - Different projects sharing the same branch name (e.g. `main`) produced identical `<branch>_default` networks, causing Docker network collisions.
+  - The env file now contains more than just ports (e.g. `COMPOSE_PROJECT_NAME`), so the old name was misleading.
 - LLM Notes:
-  - Key files: `scripts/generate-ports.sh`.
-  - `with-ports.sh` sources `.env.ports` into the shell before `exec`, so `COMPOSE_PROJECT_NAME` is automatically available to Docker Compose without any compose.yml changes.
+  - Key files: `scripts/generate-worktree-env.sh`, `scripts/with-worktree-env.sh`.
+  - `with-worktree-env.sh` sources `.env.worktree` into the shell before `exec`, so `COMPOSE_PROJECT_NAME` is automatically available to Docker Compose without any compose.yml changes.
 - Impact:
-  - Minor. Existing worktrees should regenerate `.env.ports` via `scripts/generate-ports.sh`.
+  - Breaking. All references to `.env.ports`, `generate-ports.sh`, `with-ports.sh` must be updated. Existing worktrees should regenerate via `scripts/generate-worktree-env.sh`.
 
 ### 2026-02-20 — 4860c1f — fix: changelog pre-push hook failing with multiple commits
 

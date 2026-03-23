@@ -1,5 +1,5 @@
-import { dbConfigSchema } from "@yourcompany/backend-core/config";
 import { z } from "zod";
+import { dbConfigSchema } from "@yourcompany/backend-core/config";
 
 const apiConfigSchema = z.object({
   env: z.enum(["dev", "production", "test", "staging"]),
@@ -26,7 +26,7 @@ const apiConfigSchema = z.object({
 export type ApiConfig = z.infer<typeof apiConfigSchema>;
 export { apiConfigSchema };
 
-// Port resolution: API_PORT (from .env.ports) > PORT (from .env) > 8080
+// Port resolution: API_PORT (from .env.worktree) > PORT (from .env) > 8080
 const apiPort = Number(process.env.API_PORT || process.env.PORT || 8080);
 const pgPort = Number(process.env.PG_PORT || 5432);
 const webPort = process.env.WEB_PORT || "4000";

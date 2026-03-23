@@ -30,11 +30,11 @@ cd "$ROOT_DIR"
 echo "[ralph:$PRD_NAME] Starting teardown..."
 
 # Load ports (generate if not exists)
-if [[ ! -f "$ROOT_DIR/.env.ports" ]]; then
-  "$ROOT_DIR/scripts/generate-ports.sh" --name "$PRD_NAME"
+if [[ ! -f "$ROOT_DIR/.env.worktree" ]]; then
+  "$ROOT_DIR/scripts/generate-worktree-env.sh" --name "$PRD_NAME"
 fi
 set -a
-source "$ROOT_DIR/.env.ports"
+source "$ROOT_DIR/.env.worktree"
 set +a
 
 # Kill dev server and all child processes

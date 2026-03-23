@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Kill all processes listening on ports defined in .env.ports
+# Kill all processes listening on ports defined in .env.worktree
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/../.env.ports"
+ENV_FILE="$SCRIPT_DIR/../.env.worktree"
 
 if [ ! -f "$ENV_FILE" ]; then
-  echo "No .env.ports file found"
+  echo "No .env.worktree file found"
   exit 1
 fi
 
@@ -26,7 +26,7 @@ for port in $ports; do
 done
 
 if [ "$killed" -eq 0 ]; then
-  echo "No processes found on any .env.ports ports"
+  echo "No processes found on any .env.worktree ports"
 else
   echo "Killed $killed process(es)"
 fi

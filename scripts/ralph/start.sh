@@ -29,16 +29,16 @@ mkdir -p "$PID_DIR" "$LOG_DIR"
 cd "$ROOT_DIR"
 
 # Generate and load ports
-"$ROOT_DIR/scripts/generate-ports.sh" --name "$PRD_NAME"
+"$ROOT_DIR/scripts/generate-worktree-env.sh" --name "$PRD_NAME"
 set -a
-source "$ROOT_DIR/.env.ports"
+source "$ROOT_DIR/.env.worktree"
 set +a
 
 echo "[ralph:$PRD_NAME] Starting dev servers..."
 echo "[ralph:$PRD_NAME] api=$API_PORT web=$WEB_PORT pg=$PG_PORT landing=$LANDING_PORT"
 
 # Start turbo dev without TUI
-nohup "$ROOT_DIR/scripts/with-ports.sh" pnpm turbo run --ui stream --concurrency=15 dev > "$LOG_DIR/${PRD_NAME}.log" 2>&1 &
+nohup "$ROOT_DIR/scripts/with-worktree-env.sh" pnpm turbo run --ui stream --concurrency=15 dev > "$LOG_DIR/${PRD_NAME}.log" 2>&1 &
 DEV_PID=$!
 echo $DEV_PID > "$PID_DIR/${PRD_NAME}.pid"
 

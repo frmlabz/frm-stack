@@ -27,8 +27,8 @@ cd "$ROOT_DIR"
 echo "[ralph:$PRD_NAME] Running setup..."
 
 # Generate ports for this PRD
-"$ROOT_DIR/scripts/generate-ports.sh" --name "$PRD_NAME"
+"$ROOT_DIR/scripts/generate-worktree-env.sh" --name "$PRD_NAME"
 
-"$ROOT_DIR/scripts/with-ports.sh" just setup
+"$ROOT_DIR/scripts/with-worktree-env.sh" just setup
 
 echo "[ralph:$PRD_NAME] Setup complete"
