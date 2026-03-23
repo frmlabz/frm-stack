@@ -29,6 +29,24 @@ None of these tools are optimized for the Serbian market. Our advantages:
 - Local payment options and pricing in RSD/EUR
 - Price at €29-79/mo to undercut respond.io significantly while being affordable for Serbian SMBs
 
+## Ideal Customer Profiles (ICP)
+
+Primary ICPs for launch:
+
+- **Service SMBs (2-20 employees)** — private clinics, salons, auto services, legal/accounting offices. Heavy WhatsApp + phone volume, missed after-hours leads, owner/operator still in the loop.
+- **Social-first sales teams (3-30 employees)** — furniture, custom interiors, beauty, fitness, local retail brands selling through Instagram DMs + WhatsApp follow-up.
+- **Hospitality and booking-driven businesses (5-40 employees)** — restaurants, dental/aesthetic chains, studios, agencies that need fast first response and call-to-chat follow-up.
+
+Buying triggers:
+
+- Repeated missed calls and unanswered DMs during peak hours
+- Leads spread across WhatsApp/Instagram/email with no single owner
+- Response times above 15 minutes for high-intent inquiries
+
+Not ICP for v1:
+
+- Enterprises requiring advanced compliance workflows, custom on-prem deployments, or deep ERP integrations from day one
+
 ---
 
 # UI Layout — Main Sections
@@ -365,14 +383,22 @@ Message received → Check if contact tagged "VIP" → If yes → Immediately as
 
 Core value: "Never miss a lead again"
 
-- Unified inbox (WhatsApp + Instagram + Email)
-- Basic contact management with lead status
-- Single AI agent with knowledge base (document upload + manual Q&A)
-- Business hours configuration (Serbian holidays included)
-- Basic call routing: receive → forward to human → after hours voicemail/message
-- Push + email notifications for new leads and escalations
-- Simple dashboard with key metrics (unresponded count, new leads, response time)
-- Settings: channel connections, team members, business profile
+- Unified inbox (WhatsApp + Instagram + Email) with assignment, status, tags, and search
+- Basic contact management with lead status + timeline (no advanced deal pipeline in MVP)
+- Single AI agent with knowledge base (document upload + manual Q&A + controlled escalation to human)
+- Business hours configuration (Serbian holidays included) and after-hours auto-replies
+- Basic call routing: 1 number per workspace, forward chain, missed-call follow-up, voicemail
+- Push + email notifications for new leads, missed calls, and escalations
+- Simple dashboard with key metrics (unresponded count, new leads, first response time, AI escalation count)
+- Settings: channel connections, team members, business profile, notification rules
+- Usage metering + cost ledger (per tenant, per channel, per feature) with monthly breakdown export
+
+MVP scope guards (tightened, without dropping functionality):
+
+- Keep all listed channels and modules, but ship one "happy path" per feature before adding variants
+- Use rule templates for automation in MVP, then ship the full visual workflow builder in V2
+- Keep analytics to actionable operational metrics first; deep attribution/leaderboards move to V2
+- Keep call center focused on routing + history + follow-up; advanced live queue controls and AI call summaries move to V2
 
 ## V2 (Month 3-4)
 
@@ -415,7 +441,7 @@ Scale and monetize:
 ## AI Layer
 
 - **Conversation AI:** Claude API (Anthropic) for message understanding, response generation, intent detection, lead qualification
-- **Knowledge Base / RAG:** pgvector (PostgreSQL extension) or Qdrant for vector storage, chunk documents on upload, retrieve relevant chunks per message
+- **Knowledge Base / RAG:** pgvector (PostgreSQL extension) as default for MVP, chunk documents on upload, retrieve relevant chunks per message
 - **Voice AI (V3):** Deepgram for real-time STT, Claude for conversation logic, ElevenLabs or Deepgram TTS for voice synthesis
 
 ## Real-Time
@@ -425,7 +451,7 @@ Scale and monetize:
 
 ## Backend
 
-- Node.js (Express or Fastify) or Go
+- Node.js (TypeScript + Fastify)
 - PostgreSQL as primary database (with pgvector extension)
 - Redis for caching, queuing (BullMQ), and real-time pub/sub
 - S3-compatible storage (Cloudflare R2) for call recordings, uploaded documents
@@ -442,21 +468,79 @@ Scale and monetize:
 - **Multi-tenant from day one** — each business is a tenant with isolated data but shared infrastructure. This enables the agency/white-label model later
 - **Event-driven architecture** — every incoming message, call, status change is an event that triggers processing pipelines. Makes it easy to add new channels and automations
 - **Queue-first for AI** — all AI processing goes through a job queue so you can handle spikes, retry failures, and rate-limit API calls gracefully
+- **Metering-first economics** — every billable action emits usage + cost events so gross margin can be computed per tenant and per feature
+
+## Data Protection & Compliance (MVP-Minimal)
+
+- **Tenant isolation by design** — every record is tenant-scoped, enforced in application layer + database row-level security policies
+- **Encryption in transit and at rest** — TLS everywhere; database/storage encryption enabled by default
+- **Per-tenant encryption keys for sensitive fields** — encrypt message bodies, phone numbers, and emails with envelope encryption (tenant DEK wrapped by a master key)
+- **Access control + auditability** — role-based access (Owner/Admin/Agent/Viewer) and immutable audit logs for key actions
+- **Retention controls** — configurable message/call retention windows per tenant
+- **Call recording disclosure** — built-in greeting/disclaimer option where recording is enabled
+
+## Cost Tracking & Unit Economics (Required)
+
+Goal: exact and auditable cost/revenue visibility per tenant, per month, per channel, per workflow, and per conversation.
+
+Track at event level:
+
+- Telephony: call start/end, duration seconds, direction (inbound/outbound), provider rate, total call cost
+- LLM usage: model, input tokens, output tokens, cached tokens (if any), cost per request, latency
+- External APIs: provider, endpoint/action, request count, provider charge, retries/failures
+- Messaging fees: WhatsApp conversation category, per-conversation fee, template fees
+- Storage/processing: recording minutes stored, transcription minutes, document processing jobs
+- Internal compute proxy: queue jobs, worker execution time, heavy background tasks
+
+Cost ledger dimensions (every row):
+
+- tenant_id, workspace_id
+- timestamp (UTC), billing_month
+- channel (WhatsApp/Instagram/Email/Voice/System)
+- feature/module (Inbox, AI Agent, Calls, Workflow, KB, Analytics)
+- provider (Meta, Telnyx, Anthropic, Deepgram, etc.)
+- usage_unit (minute, token, request, conversation, GB)
+- usage_quantity
+- unit_cost
+- total_cost
+- currency
+- source_event_id (traceable back to original event/message/call)
+
+Required outputs:
+
+- Tenant P&L view: revenue, direct usage cost, gross margin % per month
+- Cost breakdown by channel, feature, provider, and customer segment (ICP)
+- Top costly tenants/features and anomaly detection (sudden spend spikes)
+- Bill preview and invoice line items fully reconcilable to the raw ledger
+
+Implementation notes:
+
+- Build a dedicated immutable `usage_ledger` table (append-only)
+- Ingest provider webhooks/invoices for reconciliation with internally estimated costs
+- Version price cards so historical cost calculations remain correct when provider prices change
+- Support both real-time estimated cost and month-end reconciled cost
+- Expose cost APIs for internal dashboards and finance exports
 
 ---
 
-# Pricing Model Ideas
+# Pricing Model (Base + Usage)
 
 Steal from respond.io's model but adapted for Serbia:
 
-| Plan | Price | Included |
-|------|-------|----------|
-| Starter | €29/mo | 2 users, 500 active contacts, 1 AI agent, WhatsApp + Instagram + Email, basic analytics |
-| Growth | €59/mo | 5 users, 2,000 active contacts, 3 AI agents, workflows, call routing, full analytics |
-| Pro | €99/mo | 10 users, 5,000 active contacts, unlimited AI agents, AI voice, API access, white-label ready |
-| Enterprise | Custom | Unlimited everything, dedicated support, custom integrations, SLA |
+| Plan | Base Price | Included Monthly Usage |
+|------|------------|------------------------|
+| Starter | €29/mo | 2 users, 500 active contacts, 1 AI agent, 1,500 AI messages, 200 call minutes, basic analytics |
+| Growth | €59/mo | 5 users, 2,000 active contacts, 3 AI agents, 6,000 AI messages, 800 call minutes, workflow templates |
+| Pro | €99/mo | 10 users, 5,000 active contacts, unlimited AI agents, 20,000 AI messages, 2,000 call minutes, API access |
+| Enterprise | Custom | Custom included volumes, SLA, dedicated support, custom integrations |
 
-Additional charges: Telnyx phone number (~€1/mo) + per-minute call costs, WhatsApp conversation fees (Meta charges these regardless)
+Usage-based overages:
+
+- Active contacts above included volume: +€0.02/contact
+- AI messages above included volume: +€0.006/message
+- Call minutes above included volume: pass-through carrier cost + platform margin
+- WhatsApp conversation fees: pass-through (Meta pricing)
+- Additional phone numbers: pass-through (Telnyx) + optional platform fee
 
 ---
 

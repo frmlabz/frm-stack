@@ -23,7 +23,7 @@ comment-policy = { source = "github:frmlabz/omnidev-capabilities", version = "la
 #### RALPH
 
 [ralph]
-project_name = "nutribox"
+project_name = "podrska"
 default_agent = "claude"
 default_iterations = 20
 

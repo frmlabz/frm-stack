@@ -18,6 +18,18 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-03-23 — HEAD — fix: add COMPOSE_PROJECT_NAME to prevent Docker network collisions
+
+- Summary:
+  - Emit `COMPOSE_PROJECT_NAME=template_<branch>` in `generate-ports.sh` so each worktree/branch gets a unique Docker Compose project name and network (`template_<branch>_default`).
+- Why:
+  - Different projects sharing the same branch name (e.g. `main`) produced identical `<branch>_default` networks, causing Docker network collisions.
+- LLM Notes:
+  - Key files: `scripts/generate-ports.sh`.
+  - `with-ports.sh` sources `.env.ports` into the shell before `exec`, so `COMPOSE_PROJECT_NAME` is automatically available to Docker Compose without any compose.yml changes.
+- Impact:
+  - Minor. Existing worktrees should regenerate `.env.ports` via `scripts/generate-ports.sh`.
+
 ### 2026-02-20 — 4860c1f — fix: changelog pre-push hook failing with multiple commits
 
 - Summary:

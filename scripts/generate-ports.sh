@@ -86,6 +86,9 @@ LANDING_PORT=$LANDING_PORT
 API_URL=http://localhost:$API_PORT
 WEB_URL=http://localhost:$WEB_PORT
 LANDING_URL=http://localhost:$LANDING_PORT
+
+# Docker Compose project name (prevents network collisions across projects/worktrees)
+COMPOSE_PROJECT_NAME=template_${name:-default}
 EOF
 
 echo "Generated .env.ports (offset: $offset)"
