@@ -1,4 +1,4 @@
-import { CamelCasePlugin, Kysely, type Transaction as KyselyTransaction, PostgresDialect } from "kysely";
+import { Kysely, PostgresDialect, CamelCasePlugin, type Transaction as KyselyTransaction } from "kysely";
 import { Pool } from "pg";
 
 import type { DbConfig, EnvConfig } from "#config";

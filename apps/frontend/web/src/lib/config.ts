@@ -1,5 +1,5 @@
-import { logger } from "@yourcompany/web/lib/logger";
 import { z } from "zod";
+import { logger } from "@yourcompany/web/lib/logger";
 
 // Define the schema for our configuration
 const ConfigSchema = z.object({

@@ -11,3 +11,4 @@ config.resolver = {
 };
 
 module.exports = config;
+

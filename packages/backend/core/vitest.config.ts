@@ -1,6 +1,6 @@
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { defineConfig, mergeConfig } from "vitest/config";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 import { createSharedTestConfig } from "./src/vitest.config.shared";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,5 +29,5 @@ export default mergeConfig(
         exclude: ["src/**/*.test.ts", "src/test-*.ts"],
       },
     },
-  }),
+  })
 );

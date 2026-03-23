@@ -1,9 +1,9 @@
-import { expoClient } from "@better-auth/expo/client";
-import type { Auth } from "@yourcompany/api/auth";
-import { customSessionClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
-import * as SecureStore from "expo-secure-store";
+import { expoClient } from "@better-auth/expo/client";
+import { customSessionClient } from "better-auth/client/plugins";
+import type { Auth } from "@yourcompany/api/auth";
 import { Platform } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import { getConfig } from "./config";
 
 // Must match backend's `advanced.cookiePrefix`

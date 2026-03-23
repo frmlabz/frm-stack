@@ -1,10 +1,10 @@
-import { Button } from "@yourcompany/web/components/base/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@yourcompany/web/components/base/card";
-import { Input } from "@yourcompany/web/components/base/input";
-import { Label } from "@yourcompany/web/components/base/label";
-import { Spinner } from "@yourcompany/web/components/base/spinner";
 import { useState } from "react";
 import { signIn } from "#lib/auth";
+import { Button } from "@yourcompany/web/components/base/button";
+import { Input } from "@yourcompany/web/components/base/input";
+import { Label } from "@yourcompany/web/components/base/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@yourcompany/web/components/base/card";
+import { Spinner } from "@yourcompany/web/components/base/spinner";
 
 interface SignInProps {
   onSuccess?: () => void;

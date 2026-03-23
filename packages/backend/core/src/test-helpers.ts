@@ -1,11 +1,13 @@
-import { randomUUID } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
+import { Client } from "pg";
 import { CamelCasePlugin, Kysely, PostgresDialect, sql } from "kysely";
-import { Client, Pool } from "pg";
-import type { DB } from "#db";
 import type { DB as DatabaseSchema } from "#schema";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { randomUUID } from "node:crypto";
+import { Pool } from "pg";
+import { existsSync } from "node:fs";
+import type { DB } from "#db";
 
 export function findSchemaDir(): string {
   let currentDirPath = __dirname;

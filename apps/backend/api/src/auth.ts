@@ -1,11 +1,11 @@
-import { expo } from "@better-auth/expo";
-import { authHandler, authMiddleware, getAuthConfig } from "@yourcompany/backend-core/auth";
-import { getDB } from "@yourcompany/backend-core/db";
 import { betterAuth, logger } from "better-auth";
 import { customSession } from "better-auth/plugins";
+import { expo } from "@better-auth/expo";
 import type { App } from "#app";
 import { appConfig } from "#config";
 import { logger as appLogger } from "#log";
+import { getAuthConfig, authMiddleware, authHandler } from "@yourcompany/backend-core/auth";
+import { getDB } from "@yourcompany/backend-core/db";
 import { UserService } from "#services/user";
 
 function createAuthConfig(): ReturnType<typeof betterAuth> {

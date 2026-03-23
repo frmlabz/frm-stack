@@ -1,7 +1,7 @@
 import { getDB } from "@yourcompany/backend-core/db";
+import { orpc } from "#orpc";
 import { logger } from "#log";
 import { authOnly } from "#middleware";
-import { orpc } from "#orpc";
 import { getUserByIdSchema, UserNotAuthorizedError, UserService } from "#services/user";
 
 export const userRouter = () => {

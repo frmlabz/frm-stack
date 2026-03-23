@@ -2,14 +2,14 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
 import { useColorScheme } from "#hooks/use-color-scheme";
-import { initAuthClient } from "#lib/auth";
-import { type AppConfig, getConfig } from "#lib/config";
 import { ORPCProvider } from "#providers/orpc-provider";
 import { SessionProvider } from "#providers/session-provider";
+import { getConfig, type AppConfig } from "#lib/config";
+import { initAuthClient } from "#lib/auth";
 
 export const unstable_settings = {
   anchor: "(tabs)",

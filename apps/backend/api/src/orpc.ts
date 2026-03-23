@@ -1,5 +1,6 @@
 import { os } from "@orpc/server";
-import type { Session, User } from "better-auth";
+import type { User } from "better-auth";
+import type { Session } from "better-auth";
 
 export const errors = {
   UNAUTHORIZED: {

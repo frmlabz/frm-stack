@@ -7,3 +7,4 @@ const config = createStorybookMain({
 }) satisfies StorybookConfig;
 
 export default config;
+

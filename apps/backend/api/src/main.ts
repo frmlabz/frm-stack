@@ -1,12 +1,13 @@
 import { serve } from "@hono/node-server";
 import { connectDB, dbCleanup } from "@yourcompany/backend-core/db";
-import { cors } from "hono/cors";
+import { logger } from "#log";
+import { appConfig } from "#config";
 import { createApp } from "#app";
 import { initAuth, registerAuth } from "#auth";
-import { appConfig } from "#config";
-import { logger } from "#log";
-import { registerORPC, registerRoutes, router } from "#routers/index";
-
+import { registerORPC } from "#routers/index";
+import { registerRoutes } from "#routers/index";
+import { router } from "#routers/index";
+import { cors } from "hono/cors";
 // import { initCronJobs, stopCronJobs } from "#cron";
 
 const startServer = async () => {

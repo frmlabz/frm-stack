@@ -1,13 +1,13 @@
 import { RPCHandler } from "@orpc/server/fetch";
-import { getClientIp, getClientUserAgent } from "@yourcompany/backend-core/utils/client-info";
 import type { Context } from "hono";
 import type { App } from "#app";
-import { appConfig } from "#config";
 import { logger } from "#log";
+import { appConfig } from "#config";
+import { getClientIp, getClientUserAgent } from "@yourcompany/backend-core/utils/client-info";
 import { orpc } from "#orpc";
+import { userRouter } from "#routers/user";
 import { healthRouter } from "#routers/health";
 import { todoRouter } from "#routers/todo";
-import { userRouter } from "#routers/user";
 
 export const router = () =>
   orpc.router({
@@ -66,7 +66,7 @@ export const registerORPC = (app: App, router: RPCHandlerRouter) => {
 
         if (response.status >= 400 && response.status < 600) {
           appConfig.requestLogging &&
-            logger.error("RPC Error Response", undefined, {
+            logger.error("RPC Error Response", {
               method: c.req.method,
               url: c.req.url,
               status: response.status,

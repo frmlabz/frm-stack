@@ -1,7 +1,7 @@
-import type { Auth } from "@yourcompany/api/auth";
-import { customSessionClient } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/react";
 import { getConfig } from "#lib/config";
+import type { Auth } from "@yourcompany/api/auth";
+import { customSessionClient } from "better-auth/client/plugins";
 
 const config = getConfig();
 

@@ -1,17 +1,17 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useState, useMemo } from "react";
 import {
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-  StyleSheet,
+  View,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  StyleSheet,
+  ActivityIndicator,
+  ScrollView,
+  Alert,
 } from "react-native";
 import { useApi } from "#lib/api";
 import { useSession } from "#providers/session-provider";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const TodosList = () => {
   const { data: session } = useSession();

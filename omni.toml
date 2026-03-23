@@ -1,86 +1,82 @@
+# =============================================================================
+# Capability Sources
+# =============================================================================
+# Fetch capabilities from Git repositories. On sync, these are
+# cloned/updated and made available to your profiles.
+#
+# [capabilities.sources]
+# # GitHub shorthand (uses latest commit)
+# tasks = "github:example-org/tasks-capability"
+#
+# # With subdirectory path
+# ralph = { source = "github:example-org/ralph", path = "plugins/my-cap" }
+#
+# # Other Git sources
+# private = "git@github.com:company/private-cap.git"
+# gitlab = "https://gitlab.com/user/capability.git"
+
+# =============================================================================
+# Capability Groups
+# =============================================================================
+# Bundle multiple capabilities under a single name for cleaner profiles.
+# Reference groups in profiles with the "group:" prefix.
+#
+# [capabilities.groups]
+# expo = ["expo-app-design", "expo-deployment", "upgrading-expo"]
+# backend = ["cloudflare", "database-tools"]
+#
+# [profiles.mobile]
+# capabilities = ["group:expo", "react-native-tools"]
+
+# =============================================================================
+# Always Enabled Capabilities
+# =============================================================================
+# Capabilities that load in ALL profiles, regardless of profile config.
+# Useful for essential tools needed everywhere.
+#
+# [capabilities]
+# always_enabled = ["git-tools", "linting"]
+
+# =============================================================================
+# MCP Servers
+# =============================================================================
+# Define MCP servers that automatically become capabilities.
+# Reference in profiles using the MCP name directly, e.g. capabilities = ["filesystem"]
+#
+# [mcps.filesystem]
+# command = "npx"
+# args = ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/dir"]
+# transport = "stdio"  # stdio (default), sse, or http
+#
+# [mcps.database]
+# command = "node"
+# args = ["./servers/database.js"]
+# cwd = "./mcp-servers"
+# env = { DB_URL = "${DATABASE_URL}" }
+
+# =============================================================================
+# Profiles
+# =============================================================================
+# Define different capability sets for different workflows.
+# Switch profiles with: omnidev profile use <name>
+
 [profiles.default]
-capabilities = ["frontend", "backend", "general", "ralph"]
+capabilities = ["frontend", "backend", "general", "group:expo"]
 
 [profiles.planning]
-capabilities = ["ralph"]
+capabilities = []
 
 [profiles.coding]
 capabilities = []
 
-[capabilities]
-always_enabled=["comment-policy", "general", "context7"]
 
 [capabilities.sources]
 general = "file://./capabilities/general"
 backend = "file://./capabilities/backend"
 frontend = "file://./capabilities/frontend"
-mobile = "file://./capabilities/mobile"
-# ralph = { source = "github:frmlabz/omnidev-capabilities", version = "latest", path = "ralph" }
-ralph = "file:///home/nikola/files/work/frmlabz/tools/omnidev-capabilities/ralph"
-context7 = { source = "github:frmlabz/omnidev-capabilities", version = "latest", path = "context7" }
-comment-policy = { source = "github:frmlabz/omnidev-capabilities", version = "latest", path = "comment-policy" }
+expo-app-design = { source = "github:expo/skills", path = "plugins/expo-app-design", version = "latest"}
+expo-deployment = { source = "github:expo/skills", path = "plugins/expo-deployment", version = "latest" }
+upgrading-expo = { source = "github:expo/skills", path = "plugins/upgrading-expo", version = "latest" }
 
-#### RALPH
-
-[ralph]
-project_name = "podrska"
-default_agent = "claude"
-default_iterations = 20
-
-[ralph.docs]
-path = "docs"
-auto_update = true   # this is the default, so optional
-
-[ralph.review]
-review_agent = "codex-high"
-
-[ralph.swarm]
-worktree_create_cmd = "wt switch -c {name}"
-primary_branch = "main"
-
-[ralph.testing]
-project_verification_instructions = "pnpm check (runs lint, typecheck, format check), pnpm test (runs vitest)"
-test_iterations = 5
-web_testing_enabled = true
-health_check_timeout = 120
-instructions = """
-Ports are in .env.ports
-
-Testing UI can be done via `npx playwriter`, use the Playwriter skill available
-
-URLs:
-- Employee Dashboard: http://localhost:<EMPLOYEE_FRONTEND_PORT>
-- Employee API (ORPC): http://localhost:<EMPLOYEE_API_PORT>
-- Customer API (ORPC): http://localhost:<CUSTOMER_API_PORT>
-
-Customer frontend is a mobile app, so to test customers we should only use the API. Capture the session cookie and send authenticated requests.
-
-Database:
-- Postgres on localhost:<PG_PORT> (postgres/postgres)
-
-Storage:
-- MinIO on localhost:<MINIO_PORT> (minioadmin/minioadmin)
-- Media bucket: media
-
-Test Users:
-employee.super@nutribox.dev;Admin123! - employee
-"""
-
-[ralph.scripts]
-setup = "./scripts/ralph/setup.sh"
-start = "./scripts/ralph/start.sh"
-health_check = "./scripts/ralph/health-check.sh"
-teardown = "./scripts/ralph/teardown.sh"
-
-[ralph.agents.claude]
-command = "claude"
-args = ["--model", "sonnet", "--output-format", "stream-json", "--verbose","--dangerously-skip-permissions", "-p"]
-
-[ralph.agents.codex-high]
-command = "npx"
-args = ["-y", "@openai/codex", "exec", "-c", "shell_environment_policy.inherit=all", "--dangerously-bypass-approvals-and-sandbox", "--config", "model_reasoning_effort='high'","-m", "gpt-5.3-codex", "-"]
-
-[ralph.agents.codex]
-command = "npx"
-args = ["-y", "@openai/codex", "exec", "-c", "shell_environment_policy.inherit=all", "--dangerously-bypass-approvals-and-sandbox", "model_reasoning_effort='medium'","-m", "gpt-5.3-codex", "-"]
-### Council
+[capabilities.groups]
+expo = ["expo-app-design", "expo-deployment", "upgrading-expo"]
