@@ -66,7 +66,7 @@ export const registerORPC = (app: App, router: RPCHandlerRouter) => {
 
         if (response.status >= 400 && response.status < 600) {
           appConfig.requestLogging &&
-            logger.error("RPC Error Response", {
+            logger.error("RPC Error Response", new Error(`RPC returned status ${response.status}`), {
               method: c.req.method,
               url: c.req.url,
               status: response.status,
