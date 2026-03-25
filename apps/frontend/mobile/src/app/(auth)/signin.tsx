@@ -6,7 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { SignIn } from "#components/auth/signin";
+import { SignIn } from "#/components/auth/signin";
 import { useRouter } from "expo-router";
 
 export default function SignInScreen() {

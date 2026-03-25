@@ -6,7 +6,7 @@ import type { RouterClient, ClientContext } from "@orpc/server";
 import type { Router } from "@yourcompany/api/orpc";
 import { createORPCReactQueryUtils } from "@orpc/react-query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { getAuthCookie } from "#lib/auth";
+import { getAuthCookie } from "#/lib/auth";
 import { Platform } from "react-native";
 import * as Linking from "expo-linking";
 

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import type { Auth } from "#auth";
-import { logger } from "#log";
-import { appConfig } from "#config";
+import type { Auth } from "#/auth";
+import { logger } from "#/log";
+import { appConfig } from "#/config";
 import { HTTPException } from "hono/http-exception";
 
 export interface Variables {

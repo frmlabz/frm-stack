@@ -1,5 +1,5 @@
 import { createAuthClient } from "better-auth/react";
-import { getConfig } from "#lib/config";
+import { getConfig } from "#/lib/config";
 import type { Auth } from "@yourcompany/api/auth";
 import { customSessionClient } from "better-auth/client/plugins";
 

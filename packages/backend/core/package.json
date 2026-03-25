@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "imports": {
-    "#*": "./src/*.ts"
+    "#/*": "./src/*.ts"
   },
   "exports": {
     "./*": "./src/*.ts"

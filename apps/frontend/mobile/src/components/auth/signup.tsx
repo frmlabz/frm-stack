@@ -8,8 +8,8 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-import { signUp } from "#lib/auth";
-import { useSession } from "#providers/session-provider";
+import { signUp } from "#/lib/auth";
+import { useSession } from "#/providers/session-provider";
 
 interface SignUpProps {
   onSuccess?: () => void;

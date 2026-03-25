@@ -1,9 +1,9 @@
 import { Kysely, PostgresDialect, CamelCasePlugin, type Transaction as KyselyTransaction } from "kysely";
 import { Pool } from "pg";
 
-import type { DbConfig, EnvConfig } from "#config";
-import type { Logger } from "#log";
-import type { DB as DatabaseSchema } from "#schema";
+import type { DbConfig, EnvConfig } from "#/config";
+import type { Logger } from "#/log";
+import type { DB as DatabaseSchema } from "#/schema";
 
 let pool: Pool | null = null;
 let dbInstance: Kysely<DatabaseSchema> | null = null;

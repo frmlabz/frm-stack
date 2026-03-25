@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { logger } from "#log";
+import { logger } from "#/log";
 
 // Create the health route using OpenAPI
 export function healthRouter() {

@@ -1,4 +1,4 @@
-import { ORPCContext, type ORPCReactUtils } from "#providers/orpc-provider";
+import { ORPCContext, type ORPCReactUtils } from "#/providers/orpc-provider";
 import { use } from "react";
 
 export function useApi(): ORPCReactUtils {

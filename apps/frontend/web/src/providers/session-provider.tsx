@@ -1,5 +1,5 @@
-import type { AuthSession } from "#lib/auth.ts";
-import { useBetterAuthSession } from "#lib/auth.ts";
+import type { AuthSession } from "#/lib/auth";
+import { useBetterAuthSession } from "#/lib/auth";
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
 import { useIsMounted } from "@yourcompany/web/hooks/is-mounted";
 

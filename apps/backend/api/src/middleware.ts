@@ -1,4 +1,4 @@
-import { orpc } from "#orpc";
+import { orpc } from "#/orpc";
 
 export const authOnly = orpc.middleware(async ({ context, next, errors }) => {
   if (!context.user || !context.session) {

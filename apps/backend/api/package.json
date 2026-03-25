@@ -2,7 +2,7 @@
   "name": "@yourcompany/api",
   "type": "module",
   "imports": {
-    "#*": "./src/*.ts"
+    "#/*": "./src/*.ts"
   },
   "exports": {
     "./*": "./src/*.ts",

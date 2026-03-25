@@ -18,6 +18,21 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-03-25 — 73814a1 — feat: move to #/ subpath imports
+
+- Summary:
+  - Rewrite aliased source imports from `#foo` to `#/foo` and remove `.ts`/`.tsx` suffixes from aliased import sites.
+  - Rename `tsconfig` path aliases and `package.json#imports` entries from `#*` to `#/*` across backend, frontend, shared, and mobile packages.
+  - Update the backend Vitest resolver to only intercept `#/...` imports within the local API package.
+- Why:
+  - `#/*` is the explicit package-import form supported by Node import maps and avoids the ambiguity of matching every `#...` string.
+  - Keeping alias imports extensionless prevents import-map targets from resolving to doubled suffixes like `.ts.ts`.
+- LLM Notes:
+  - Key files: `apps/backend/api/vitest.config.ts`, `apps/backend/api/package.json`, `apps/backend/api/tsconfig.json`, `packages/frontend/web/package.json`, `apps/frontend/mobile/package.json`.
+  - The Vitest plugin now checks `source.startsWith("#/")` and strips the `#/` prefix with `slice(2)` before resolving into `src/`.
+- Impact:
+  - Breaking. Internal aliased imports must now use `#/...`, and package import maps or custom resolvers still expecting `#*` need the same rename.
+
 ### 2026-03-25 — ecb7ffc — feat: migrate monorepo to TypeScript 6
 
 - Summary:

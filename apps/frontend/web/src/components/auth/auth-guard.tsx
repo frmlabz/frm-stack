@@ -1,7 +1,7 @@
 import type * as React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useRouterState } from "@tanstack/react-router";
-import { useAuth } from "#providers/auth-provider";
+import { useAuth } from "#/providers/auth-provider";
 import { Spinner } from "@yourcompany/web/components/base/spinner";
 
 interface AuthGuardProps {

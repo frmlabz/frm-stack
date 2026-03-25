@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { createLogger, type Logger, type LoggerConfig } from "#log";
+import { createLogger, type Logger, type LoggerConfig } from "#/log";
 
 vi.mock("pino", () => ({
   pino: vi.fn(() => ({

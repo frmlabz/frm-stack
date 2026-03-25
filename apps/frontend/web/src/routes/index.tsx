@@ -1,5 +1,5 @@
-import { useApi } from "#lib/api";
-import { useSession } from "#providers/session-provider.tsx";
+import { useApi } from "#/lib/api";
+import { useSession } from "#/providers/session-provider";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";

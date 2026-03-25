@@ -1,5 +1,5 @@
-import type { AuthSession } from "#lib/auth";
-import { getAuthClient, getCachedSession, getSession } from "#lib/auth";
+import type { AuthSession } from "#/lib/auth";
+import { getAuthClient, getCachedSession, getSession } from "#/lib/auth";
 import {
   createContext,
   useCallback,

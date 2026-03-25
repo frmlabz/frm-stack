@@ -3,7 +3,7 @@ import type { DB } from "@yourcompany/backend-core/db";
 import type { Logger } from "@yourcompany/backend-core/log";
 import { createTestUser, getSharedDatabaseHelper, resetSharedDatabase } from "@yourcompany/backend-core/test-helpers";
 import { randomUUID } from "node:crypto";
-import { TodoNotAuthorizedError, TodoNotFoundError, TodoService } from "#services/todo";
+import { TodoNotAuthorizedError, TodoNotFoundError, TodoService } from "#/services/todo";
 
 describe("TodoService", () => {
   let db: DB;

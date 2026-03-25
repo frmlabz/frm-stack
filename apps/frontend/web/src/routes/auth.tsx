@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { useAuth } from "#providers/auth-provider";
-import { SignIn } from "#components/auth/signin";
-import { SignUp } from "#components/auth/signup";
+import { useAuth } from "#/providers/auth-provider";
+import { SignIn } from "#/components/auth/signin";
+import { SignUp } from "#/components/auth/signup";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@yourcompany/web/components/base/tabs";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 

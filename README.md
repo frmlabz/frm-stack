@@ -140,7 +140,7 @@ See `docs/worktree.md` for full documentation.
 ## Known rough edges / help wanted
 
 - Node/shared package HMR is still not great (would love best practices for “JIT workspace packages” + watch mode).
-- Vitest + workspace “subpath imports” (`#*`) can be tricky. I currently work around it with a custom resolver plugin in `apps/backend/api/vitest.config.ts` (not sure if this is the best solution).
+- Vitest + workspace “subpath imports” (`#/*`) can be tricky. I currently work around it with a custom resolver plugin in `apps/backend/api/vitest.config.ts` (not sure if this is the best solution).
 - The shared testcontainers singleton approach is intentionally aggressive for speed; I’m still evaluating whether it’s the right default long-term.
 
 ## CI/CD

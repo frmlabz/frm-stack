@@ -1,13 +1,13 @@
 import { RPCHandler } from "@orpc/server/fetch";
 import type { Context } from "hono";
-import type { App } from "#app";
-import { logger } from "#log";
-import { appConfig } from "#config";
+import type { App } from "#/app";
+import { logger } from "#/log";
+import { appConfig } from "#/config";
 import { getClientIp, getClientUserAgent } from "@yourcompany/backend-core/utils/client-info";
-import { orpc } from "#orpc";
-import { userRouter } from "#routers/user";
-import { healthRouter } from "#routers/health";
-import { todoRouter } from "#routers/todo";
+import { orpc } from "#/orpc";
+import { userRouter } from "#/routers/user";
+import { healthRouter } from "#/routers/health";
+import { todoRouter } from "#/routers/todo";
 
 export const router = () =>
   orpc.router({

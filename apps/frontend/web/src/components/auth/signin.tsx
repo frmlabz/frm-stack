@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { signIn } from "#lib/auth";
+import { signIn } from "#/lib/auth";
 import { Button } from "@yourcompany/web/components/base/button";
 import { Input } from "@yourcompany/web/components/base/input";
 import { Label } from "@yourcompany/web/components/base/label";

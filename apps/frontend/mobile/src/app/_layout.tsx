@@ -5,11 +5,11 @@ import "react-native-reanimated";
 import { useState, useEffect } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
-import { useColorScheme } from "#hooks/use-color-scheme";
-import { ORPCProvider } from "#providers/orpc-provider";
-import { SessionProvider } from "#providers/session-provider";
-import { getConfig, type AppConfig } from "#lib/config";
-import { initAuthClient } from "#lib/auth";
+import { useColorScheme } from "#/hooks/use-color-scheme";
+import { ORPCProvider } from "#/providers/orpc-provider";
+import { SessionProvider } from "#/providers/session-provider";
+import { getConfig, type AppConfig } from "#/lib/config";
+import { initAuthClient } from "#/lib/auth";
 
 export const unstable_settings = {
   anchor: "(tabs)",

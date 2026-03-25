@@ -6,8 +6,8 @@
 
 import { describe, it, expect, beforeAll, beforeEach } from "vitest";
 import type { Kysely } from "kysely";
-import type { DB as DatabaseSchema } from "#schema";
-import { getSharedDatabaseHelper, resetSharedDatabase, createTestUser } from "#test-helpers";
+import type { DB as DatabaseSchema } from "#/schema";
+import { getSharedDatabaseHelper, resetSharedDatabase, createTestUser } from "#/test-helpers";
 
 describe("Example Test Suite", () => {
   let db: Kysely<DatabaseSchema>;

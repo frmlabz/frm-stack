@@ -1,6 +1,6 @@
 import type { BetterAuthOptions } from "better-auth";
-import type { Logger } from "#log";
-import { getPGPool } from "#db";
+import type { Logger } from "#/log";
+import { getPGPool } from "#/db";
 import type { Context, Next } from "hono";
 
 export interface AuthConfigParams {

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { cn } from "#lib/utils";
-import { Input } from "#components/base/input.tsx";
-import { Button } from "#components/base/button.tsx";
+import { cn } from "#/lib/utils";
+import { Input } from "#/components/base/input";
+import { Button } from "#/components/base/button";
 
 interface EmailInputProps {
   onSubmit: (email: string) => void;

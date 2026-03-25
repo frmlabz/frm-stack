@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi, beforeAll } from "vitest";
-import { UserNotAuthorizedError, UserService } from "#services/user";
+import { UserNotAuthorizedError, UserService } from "#/services/user";
 import type { DB } from "@yourcompany/backend-core/db";
 import type { Logger } from "@yourcompany/backend-core/log";
 import { createTestUser } from "@yourcompany/backend-core/test-helpers";

@@ -7,7 +7,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { SignUp } from "#components/auth/signup";
+import { SignUp } from "#/components/auth/signup";
 import { useRouter } from "expo-router";
 
 export default function SignUpScreen() {
