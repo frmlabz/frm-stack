@@ -22,6 +22,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@yourcompany/configs": "workspace:*"
+    "@yourcompany/configs": "workspace:*",
+    "typescript": "catalog:"
   }
 }

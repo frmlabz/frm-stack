@@ -45,6 +45,7 @@
     "@yourcompany/configs": "workspace:*",
     "amaro": "catalog:",
     "pino-pretty": "catalog:",
-    "testcontainers": "catalog:"
+    "testcontainers": "catalog:",
+    "typescript": "catalog:"
   }
 }

@@ -1,15 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
     "moduleDetection": "force",
-    "lib": ["ES2022"],
     "allowImportingTsExtensions": true,
     "allowJs": false,
     "isolatedModules": true,
-    "strict": true,
-    "esModuleInterop": true,
     "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true,

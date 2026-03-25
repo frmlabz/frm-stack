@@ -4,8 +4,7 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2023"],
-    "allowImportingTsExtensions": true,
+    "lib": ["ES2025"],
     "rewriteRelativeImportExtensions": true,
     "noEmit": true,
     "types": ["node"]

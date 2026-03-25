@@ -18,6 +18,21 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-03-25 — ecb7ffc — feat: migrate monorepo to TypeScript 6
+
+- Summary:
+  - Upgrade the workspace TypeScript catalog from `^5.9.2` to `6.0.2` and refresh `pnpm-lock.yaml`.
+  - Simplify the shared presets in `packages/shared/config/` to the TS 6 baseline and move lib targets to `ES2025`.
+  - Remove stale `baseUrl` usage from package tsconfigs and add package-local `typescript` or `@types/node` devDependencies where package-local `tsc` now relies on them.
+- Why:
+  - TS 6 makes the old config baseline noisier than necessary and pushes the repo toward explicit `paths` over `baseUrl`.
+  - Packages invoking `tsc` directly should declare the compiler and node types they depend on instead of relying on root installs or hoisting.
+- LLM Notes:
+  - Key files: `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `packages/shared/config/tsconfig.base.json`, `packages/shared/config/tsconfig.node.json`, `packages/shared/config/tsconfig.react.app.json`, `packages/shared/config/tsconfig.react.node.json`.
+  - `apps/frontend/web` and `packages/frontend/testing` now carry local `@types/node` because `tsconfig.react.node` sets `types: ["node"]`.
+- Impact:
+  - Minor. `pnpm install` is required to get `typescript@6.0.2`; current upstream packages still emit peer warnings that expect TypeScript 5.
+
 ### 2026-03-23 — c20649c — refactor: rename env.ports to env.worktree and add COMPOSE_PROJECT_NAME
 
 - Summary:

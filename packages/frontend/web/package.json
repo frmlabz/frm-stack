@@ -60,5 +60,7 @@
     "@yourcompany/configs": "workspace:*",
     "@yourcompany/testing": "workspace:*",
     "storybook": "catalog:"
+    ,
+    "typescript": "catalog:"
   }
 }

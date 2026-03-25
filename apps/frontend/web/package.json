@@ -47,6 +47,7 @@
     "@storybook/addon-themes": "catalog:",
     "@storybook/react": "catalog:",
     "@storybook/react-vite": "catalog:",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@tanstack/react-router-devtools": "catalog:",
@@ -54,6 +55,7 @@
     "@vitejs/plugin-react": "catalog:",
     "storybook": "catalog:",
     "tailwindcss": "catalog:",
+    "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plugin-top-level-await": "catalog:",
     "vite-tsconfig-paths": "catalog:"

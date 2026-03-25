@@ -1,7 +1,6 @@
 {
   "extends": "@yourcompany/configs/tsconfig.node",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "src",
     "types": ["node"],
     "paths": {

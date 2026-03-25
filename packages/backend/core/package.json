@@ -36,6 +36,7 @@
     "@types/node": "catalog:",
     "@types/pg": "catalog:",
     "pino-pretty": "catalog:",
-    "testcontainers": "catalog:"
+    "testcontainers": "catalog:",
+    "typescript": "catalog:"
   }
 }
