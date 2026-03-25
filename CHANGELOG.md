@@ -18,6 +18,21 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-03-25 — f8a37f6 — feat: node version update
+
+- Summary:
+  - Replace the root `engine` field with `engines.node: ">=24.14.0 <25"` and add `.nvmrc` pinned to `24.14.0`.
+  - Pin local tooling to Node `24.14.0` and pnpm `10.32.1` in `devbox.json` and refresh `devbox.lock`.
+  - Pin CI and the API Docker image to Node `24.14.0`, and align Docker Corepack with pnpm `10.24.0`.
+- Why:
+  - Floating Node 24 and `latest` devbox packages make local, CI, and container behavior drift over time.
+  - Enforcing one concrete Node baseline catches unsupported runtimes early instead of failing deeper into install or build steps.
+- LLM Notes:
+  - Key files: `package.json`, `.nvmrc`, `devbox.json`, `devbox.lock`, `.github/workflows/ci.yml`, `apps/backend/api/Dockerfile`.
+  - Verification for this commit was run with `devbox run -- bash -lc 'corepack pnpm typecheck'` because the repo now rejects non-24.x Node versions through `engines.node`.
+- Impact:
+  - Breaking. Local development and CI must use Node `24.14.0` or another `24.x` release at or above `24.14.0`; older Node versions and Node 25+ are rejected by `pnpm`.
+
 ### 2026-03-25 — 73814a1 — feat: move to #/ subpath imports
 
 - Summary:
