@@ -1,0 +1,7 @@
+`useEffect($args)` as $call where {
+  register_diagnostic(
+    span=$call,
+    message="Direct useEffect() calls are not allowed. Use useMountEffect() for mount-only effects, or refactor to derived state, event handlers, or a data-fetching library. See capabilities/frontend/skills/react-useeffect/ for approved patterns.",
+    severity="error"
+  )
+}

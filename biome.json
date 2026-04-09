@@ -1,6 +1,9 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.1/schema.json",
-  "plugins": ["./capabilities/code-quality/biome/plugins/no-logger-error-object-arg.grit"],
+  "plugins": [
+    "./capabilities/code-quality/biome/plugins/no-logger-error-object-arg.grit",
+    "./capabilities/code-quality/biome/plugins/no-direct-use-effect.grit"
+  ],
   "vcs": {
     "enabled": true,
     "clientKind": "git",

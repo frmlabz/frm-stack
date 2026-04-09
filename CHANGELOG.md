@@ -18,6 +18,19 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-04-09 — af5a295 — chore(biome): ban direct useEffect
+
+- Summary:
+  - Add `no-direct-use-effect.grit` Biome plugin that errors on bare `useEffect()` calls.
+  - Register the plugin in `biome.json`.
+- Why:
+  - Direct `useEffect` is overused and leads to bugs. Forces authors toward `useMountEffect()`, derived state, event handlers, or data-fetching libraries.
+- LLM Notes:
+  - Key files: `capabilities/code-quality/biome/plugins/no-direct-use-effect.grit`, `biome.json`.
+  - The diagnostic message points to `capabilities/frontend/skills/react-useeffect/` for approved patterns.
+- Impact:
+  - Minor. Existing `useEffect` calls will now trigger Biome errors; replace with approved alternatives.
+
 ### 2026-03-25 — f8a37f6 — feat: node version update
 
 - Summary:
