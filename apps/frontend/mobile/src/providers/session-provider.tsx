@@ -1,14 +1,7 @@
 import type { AuthSession } from "#/lib/auth";
 import { getAuthClient, getCachedSession, getSession } from "#/lib/auth";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { useMountEffect } from "#/hooks/use-mount-effect";
 
 type SessionContextType = {
   isPending: boolean;
@@ -44,15 +37,15 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     await refresh();
   }, [refresh]);
 
-  useEffect(() => {
+  useMountEffect(() => {
     if (!initialCached) {
       void refresh();
     } else {
       setIsPending(false);
     }
-  }, [initialCached, refresh]);
+  });
 
-  useEffect(() => {
+  useMountEffect(() => {
     // Keep local state in sync with cookie updates (sign-in/out) without forcing a network call.
     const store = getAuthClient().$store;
     const sessionSignal = store.atoms.$sessionSignal;
@@ -62,7 +55,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return () => {
       unsubscribe();
     };
-  }, []);
+  });
 
   return (
     <SessionContext.Provider

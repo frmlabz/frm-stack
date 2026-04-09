@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useMountEffect } from "./use-mount-effect";
 
 export function useIsMounted() {
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
+  useMountEffect(() => {
     setIsMounted(true);
-  }, []);
+  });
 
   return isMounted;
 }

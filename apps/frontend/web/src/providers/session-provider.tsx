@@ -1,6 +1,6 @@
 import type { AuthSession } from "#/lib/auth";
 import { useBetterAuthSession } from "#/lib/auth";
-import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from "react";
 import { useIsMounted } from "@yourcompany/web/hooks/is-mounted";
 
 type SessionContextType = {
@@ -12,7 +12,6 @@ const SessionContext = createContext<SessionContextType | null>(null);
 
 const SESSION_STORAGE_KEY = "yourcompany_session_data";
 
-// Helper functions for localStorage
 const getStoredSession = (): AuthSession | null => {
   try {
     const stored = sessionStorage.getItem(SESSION_STORAGE_KEY);
@@ -30,44 +29,39 @@ const setStoredSession = (session: AuthSession | null) => {
       sessionStorage.removeItem(SESSION_STORAGE_KEY);
     }
   } catch {
-    // Ignore localStorage errors
+    // Ignore sessionStorage errors
   }
 };
 
 export function SessionProvider({ children }: { children: ReactNode }) {
-  // Initialize with stored session to prevent flicker
-  const storedSession = typeof window !== "undefined" ? getStoredSession() : null;
-  const [isPending, setIsPending] = useState(!storedSession); // If we have stored session, start as not pending
-  const [data, setData] = useState<AuthSession | null>(storedSession);
   const isMounted = useIsMounted();
 
-  const onUpdate = useCallback((pending: boolean, nextData: AuthSession | null) => {
-    setIsPending(pending);
-    // Only update data when not pending (loading is complete)
-    // This preserves existing session data while new session checks are in progress
-    if (!pending) {
-      setData(nextData);
-      // Persist session to localStorage for navigation persistence
-      setStoredSession(nextData);
-    }
-  }, []);
+  if (!isMounted) {
+    const storedSession = typeof window !== "undefined" ? getStoredSession() : null;
+    return (
+      <SessionContext.Provider value={{ isPending: !storedSession, data: storedSession }}>
+        {children}
+      </SessionContext.Provider>
+    );
+  }
 
-  return (
-    <SessionContext.Provider value={{ isPending, data }}>
-      {children}
-      {isMounted && <SessionBridge onUpdate={onUpdate} />}
-    </SessionContext.Provider>
-  );
+  return <MountedSessionProvider>{children}</MountedSessionProvider>;
 }
 
-function SessionBridge({ onUpdate }: { onUpdate: (isPending: boolean, data: AuthSession | null) => void }) {
-  const { isPending: betterAuthIsPending, data: betterAuthData } = useBetterAuthSession();
+function MountedSessionProvider({ children }: { children: ReactNode }) {
+  const { isPending, data: betterAuthData } = useBetterAuthSession();
+  const data = betterAuthData ?? null;
 
-  useEffect(() => {
-    onUpdate(betterAuthIsPending, betterAuthData ?? null);
-  }, [betterAuthIsPending, betterAuthData, onUpdate]);
+  // Persist session for navigation persistence (idempotent write, safe during render)
+  if (!isPending) {
+    setStoredSession(data);
+  }
 
-  return null;
+  return (
+    <SessionContext.Provider value={{ isPending, data: isPending ? getStoredSession() : data }}>
+      {children}
+    </SessionContext.Provider>
+  );
 }
 
 export function useSession() {

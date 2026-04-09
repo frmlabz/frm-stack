@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAuth } from "#/providers/auth-provider";
 import { SignIn } from "#/components/auth/signin";
 import { SignUp } from "#/components/auth/signup";
@@ -29,7 +28,6 @@ function AuthComponent() {
 
   const activeTab = search.mode ?? "signin";
 
-  // Update search params when tab changes
   const handleTabChange = (value: string) => {
     const mode = value as AuthMode;
     navigate({
@@ -39,16 +37,6 @@ function AuthComponent() {
     });
   };
 
-  // Redirect authenticated users to home
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate({
-        to: "/",
-        replace: true,
-      });
-    }
-  }, [isAuthenticated, navigate]);
-
   const handleAuthSuccess = () => {
     navigate({
       to: "/",
@@ -56,6 +44,7 @@ function AuthComponent() {
     });
   };
 
+  // AuthGuard handles redirecting authenticated users away from /auth
   if (isAuthenticated) {
     return null;
   }

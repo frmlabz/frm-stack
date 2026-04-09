@@ -18,6 +18,24 @@ All template changes must be logged here. See `capabilities/general/skills/templ
 
 ## Entries
 
+### 2026-04-09 — refactor: remove all direct useEffect calls
+
+- Summary:
+  - Replace every `useEffect` call with `useMountEffect`, derived state, declarative `<Navigate>`, or inline computation.
+  - Add `useMountEffect` hook in `packages/frontend/web` and `apps/frontend/mobile` as the sole sanctioned `useEffect` wrapper.
+  - Restructure web `SessionProvider` to derive state directly from `useBetterAuthSession` instead of syncing via a `SessionBridge` effect.
+  - Replace imperative `useEffect`+`navigate()` in `AuthGuard` with declarative `<Navigate>` component.
+  - Derive config inline in mobile `_layout.tsx` (`getConfig()` is synchronous — no effect needed).
+  - Fix `useIsMobile` bug where `removeEventListener` received a new function reference on every call.
+- Why:
+  - Enforces the `no-direct-use-effect` biome plugin added in the prior commit. Every existing `useEffect` call now uses an approved pattern.
+- LLM Notes:
+  - Key files: `packages/frontend/web/src/hooks/use-mount-effect.ts`, `apps/frontend/mobile/src/hooks/use-mount-effect.ts`, `apps/frontend/web/src/providers/session-provider.tsx`, `apps/frontend/web/src/components/auth/auth-guard.tsx`, `apps/frontend/mobile/src/app/_layout.tsx`.
+  - `useMountEffect` files use `biome-ignore lint/plugin/no-direct-use-effect` inline suppression.
+  - The biome plugin in `biome.json` remains unchanged; no override was needed.
+- Impact:
+  - Minor. No API changes; auth redirect and session behavior preserved.
+
 ### 2026-04-09 — af5a295 — chore(biome): ban direct useEffect
 
 - Summary:
